@@ -16,6 +16,8 @@
         //requete pour vérifier si les identifiants/mdp corresponde dans la bdd
         $sql = 'SELECT * FROM membre where pseudo=:pseudo AND mdp=:mdp';
         $res = executeRequete($sql, array('pseudo' => $_POST['pseudo'], 'mdp' => $mdpCrypte));
+        
+
         if($res->rowCount() != 0){
             //j'ai un résultat en base donc j'autentifie l'utilisateur
             $membre = $res->fetch(PDO::FETCH_ASSOC);

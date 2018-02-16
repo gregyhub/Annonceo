@@ -20,3 +20,7 @@ table.prod{
 span.glyphicon-minus{
     display:none;
 }
+
+.inputMembre, .savedMembre{
+    display:none;
+}

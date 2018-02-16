@@ -1,0 +1,11 @@
+PROJET ANNONCEO 
+Thomas / Moundir / Grégoire
+16/02/2018
+
+Création de la base de données : Thomas
+gestion du designe : T/M/G
+gestion des cookies : 
+modifier les pages
+    connexion : RAS
+    profil : ajout de l'affichage des infos + formulaire de modification
+        a FAIRE : afficher les annonce / commentaires / notes si vendeur.

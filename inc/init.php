@@ -10,7 +10,7 @@
     session_start();
 
     //bdd
-    $pdo = new PDO('mysql:host=localhost; dbname=site','root', '', 
+    $pdo = new PDO('mysql:host=localhost; dbname=annonceo','root', '', 
     array(
         PDO::ATTR_ERRMODE=>PDO::ERRMODE_WARNING,
         PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES utf8'
@@ -18,8 +18,7 @@
 
 
     //chemin du site
-    define('RACINE_SITE', '/PHP/site/');
-    define('ROOT', $_SERVER['DOCUMENT_ROOT'].'/PHP/site/');
+    define('RACINE_SITE', '/Annonceo/');
 
 
     // Constantes pour les Photos

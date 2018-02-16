@@ -60,42 +60,36 @@
             <input type="text" class="form-control" id="nom" name="nom" placeholder="saisissez votre nom" value="<?= $_POST['nom'] ?? '' ?>">
             <?= $errorInscription['nom'] ?? '' ?>
         </div>
+        <!--email -->
         <div class="form-group <?= isset($errorInscription['email']) ? 'has-error' : '' ?>">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="saisissez votre email" value="<?= $_POST['email'] ?? '' ?>">
             <?= $errorInscription['email'] ?? '' ?>
         </div>
-        <div class="form-group <?= isset($errorInscription['sexe']) ? 'has-error' : '' ?>">
-        <label>Sexe</label>
+        <div class="form-group <?= isset($errorInscription['civilite']) ? 'has-error' : '' ?>">
+        <!--Civilité -->
+        <label>Civilité</label>
             <div class="radio">
                 <label>
-                    <input type="radio" name="sexe" id="femme" value="f" checked <?php if(!empty($_POST['sexe']) && $_POST['sexe'] == "f"){ echo 'checked';} else { echo '';} ?> />
+                    <input type="radio" name="civilite" id="femme" value="f" checked <?php if(!empty($_POST['civilite']) && $_POST['civilite'] == "f"){ echo 'checked';} else { echo '';} ?> />
                 Femme
                 </label>
                 </div>
                 <div class="radio">
                 <label>
-                    <input type="radio" name="sexe" id="homme" value="m" <?php if(!empty($_POST['sexe']) && $_POST['sexe'] == "m"){ echo 'checked';} else { echo '';} ?> />
+                    <input type="radio" name="civilite" id="homme" value="m" <?php if(!empty($_POST['civilite']) && $_POST['civilite'] == "m"){ echo 'checked';} else { echo '';} ?> />
                 Homme
                 </label>
-                <?= $errorInscription['sexe'] ?? '' ?>
+                <?= $errorInscription['civilite'] ?? '' ?>
             </div>
         </div>
-        <div class="form-group <?= isset($errorInscription['ville']) ? 'has-error' : '' ?>">
-            <label for="ville">Ville</label>
-            <input type="text" class="form-control" id="ville" name="ville" placeholder="saisissez votre ville" value="<?= $_POST['ville'] ?? '' ?>">
-            <?= $errorInscription['ville'] ?? '' ?>
+        <!--tel -->
+        <div class="form-group <?= isset($errorInscription['telephone']) ? 'has-error' : '' ?>">
+            <label for="telephone">Téléphone</label>
+            <input type="text" class="form-control" id="telephone" name="telephoneville" placeholder="saisissez votre telephone" value="<?= $_POST['telephone'] ?? '' ?>">
+            <?= $errorInscription['telephone'] ?? '' ?>
         </div>
-        <div class="form-group <?= isset($errorInscription['adresse']) ? 'has-error' : '' ?>">
-            <label for="adresse">Adresse</label>
-            <input type="text" class="form-control" id="adresse" name="adresse" placeholder="saisissez votre adresse" value="<?= $_POST['adresse'] ?? '' ?>">
-            <?= $errorInscription['adresse'] ?? '' ?>
-        </div>
-        <div class="form-group <?= isset($errorInscription['cp']) ? 'has-error' : '' ?>">
-            <label for="cp">Code Postal</label>
-            <input type="text" class="form-control" id="cp" name="cp" placeholder="saisissez votre cp" value="<?= $_POST['cp'] ?? '' ?>">
-            <?= $errorInscription['cp'] ?? '' ?>
-        </div>
+        
         <div class="form-group <?= isset($errorInscription['mdp']) ? 'has-error' : '' ?>">
             <label for="mdp">Password</label>
             <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Password">

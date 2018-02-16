@@ -18,60 +18,75 @@
         ob_start();
         ?>
             <div class="jumbotron">
-            <p>Bievenu <?= $_SESSION['membre']['pseudo'] ?></p>
-                </div>
+                <p>Bievenu <?= $_SESSION['membre']['pseudo'] ?></p>
+
+                <ul class="list-group">
+                    <input type="hidden" class="idm" value="<?= $_SESSION['membre']['id_membre'] ?>">
+
+                    <li class="list-group-item">
+                        Pseudo : <span class="infoMembre"><?= $_SESSION['membre']['pseudo'] ?></span> 
+                        <button type="button" class="btn btn-primary updateMembre">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <input type="text" name="pseudo" id="pseudo" class="inputMembre" value="<?= $_SESSION['membre']['pseudo'] ?>">
+                        <button type="button" class="btn btn-primary savedMembre">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                        </button>                        
+                    </li>
+
+
+
+
+                    <li class="list-group-item">Prenom : <span class="infoMembre"><?= $_SESSION['membre']['prenom'] ?></span>
+                         <button type="button" class="btn btn-primary updateMembre"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <input type="text" name="prenom" id="prenom" class="inputMembre" value="<?= $_SESSION['membre']['prenom'] ?>">
+                        <button type="button" class="btn btn-primary savedMembre">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                        </button>
+                    </li>
+
+
+                    <li class="list-group-item">Nom : <span class="infoMembre"><?= $_SESSION['membre']['nom'] ?></span> <button type="button" class="btn btn-primary updateMembre"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <input type="text" name="nom" id="nom" class="inputMembre" value="<?= $_SESSION['membre']['nom'] ?>">
+                        <button type="button" class="btn btn-primary savedMembre">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                        </button>
+                    </li>
+
+
+                    <li class="list-group-item">Email : <span class="infoMembre"><?= $_SESSION['membre']['email'] ?></span>
+                     <button type="button" class="btn btn-primary updateMembre"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <input type="text" name="email" id="email" class="inputMembre" value="<?= $_SESSION['membre']['email'] ?>">
+                        <button type="button" class="btn btn-primary savedMembre">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                        </button>
+                    </li>
+
+
+                    <li class="list-group-item">Téléphone : <span class="infoMembre"><?= $_SESSION['membre']['telephone'] ?></span>
+                     <button type="button" class="btn btn-primary updateMembre"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <input type="text" name="telephone" id="telephone" class="inputMembre" value="<?= $_SESSION['membre']['telephone'] ?>">
+                        <button type="button" class="btn btn-primary savedMembre">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                        </button>
+                    </li>
+
+
+                    <li class="list-group-item">Civilite : <span class="infoMembre"><?= $_SESSION['membre']['civilite'] ?>
+                    </span> <button type="button" class="btn btn-primary updateMembre"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <input type="radio" name="civilite" id="civilite" class="inputMembre" value="m">Homme
+                        <input type="radio" name="civilite" id="civilite" class="inputMembre" value="f">Femme
+                        <button type="button" class="btn btn-primary savedMembre">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- afficher le prenom / Nom / mail / tel/ civilite /  -->
+                <!-- + un afficher  formulaire le prenom / Nom / mail / tel/ civilite / mdp -->
+            </div>
         <?php    
         $profil = ob_get_clean();
-
-
-        
-        //affiche dans un tableau le récap des commandes
-        ob_start();
-        //je commence par regarder si il ya des commandes pour ce membre
-        $sql = 'SELECT * FROM commande WHERE id_membre = :id_membre';
-        $commandesClient = executeRequete($sql, array('id_membre'=>$_SESSION['membre']['id_membre']));
-        if($commandesClient->rowCount() == 0){
-            //il n'y a pas de commande pour ce membre
-            ?>
-            <div class="jumbotron"> <p>Vous n'avez passé aucune commande.</p><p><a href="index.php">Commencez vos achats !</a></p></div>
-            <?php
-        }
-        else{
-            while($commande = $commandesClient->fetch(PDO::FETCH_ASSOC)){
-                //je récupère le détail de la commande
-                $sql = 'SELECT titre, quantite, dc.prix FROM details_commande dc, produit p WHERE dc.id_produit=p.id_produit AND id_commande = :id_commande';
-                $detailCommande = executeRequete($sql, array('id_commande'=>$commande['id_commande']));
-                ?>
-                    <table class="table table-condensed table-hover">
-                        <tr class="info">
-                            <th colspan="2">
-                                Votre commande N°<?= $commande['id_commande'] ?> 
-                            </th>
-                            <th colspan="2">
-                                Montant de la commande : <?= $commande['montant'] ?>€ à la date du <?= $commande['date_enregistrement'] ?> 
-                            </th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <?php
-                            //j'affiche maintenant les produit de la commande maintenant
-                            while($prod = $detailCommande->fetch(PDO::FETCH_ASSOC)){
-                                ?>
-                                    <tr>
-                                        <td>Produit : <?= $prod['titre'] ?></td>
-                                        <td>Prix unitaire : <?= $prod['prix'] ?>€</td>
-                                        <td>quantite : <?= $prod['quantite'] ?></td>
-                                        <td>prix total : <?= $prod['prix'] * $prod['quantite'] ?>€</td>
-                                    </tr>
-                                <?php
-                            }
-                           
-                        ?>
-                    </table>
-                <?php
-            }
-        }
-        $commandes = ob_get_clean();
     }
 
     ob_start();
