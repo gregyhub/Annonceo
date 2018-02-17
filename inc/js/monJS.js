@@ -59,21 +59,7 @@ $(function(){
     });
 
     
-    /* ======================================================================================================
-    ======  FONCTIONS POUR LA GESTION DES COMMANDES  ========================================================
-    ====================================================================================================== */
-
-    $(".detailCmd").on('click', function(e){
-        //je récupère la valeur de l'attribut "data" du bouton sur la ligne commande. J'y ai inseré dynamiquement en php le numéro de l'id_commande qui fait référence à l'attribut "id"  du tableau détail commande.
-        var idTab = $(this).attr('data');
-        //je peux donc sélectionner en JQ ce tableau spécifique et l'afficher
-       // $('#'+idTab).toggle();
-        //puis je masque le bouton 'plus' pour afficher le bouton 'moins'
-        $(this).find('span').toggle();
-        $( '#'+idTab  ).toggle( 'blind', 500 );
-        
-    });
-
+    
 
      /* ======================================================================================================
     ======  FONCTIONS POUR LE FORMULAIRE PROFIL  ========================================================
@@ -81,46 +67,124 @@ $(function(){
 
     $('.updateMembre').on('click', function(){
         //par défaut je cache tous les input et bouton saved
-        $('.inputMembre, .savedMembre').hide();
-        $('.infoMembre , .updateMembre').show();
+        toggoleInputButton();
 
-        //je selectionne la balie "li" qui encadre le bouton sur le quel j'ai cliqué
-        var li = $(this).parent();
+        
+        //je selectionne la balie "div" qui encadre le bouton sur le quel j'ai cliqué
+        var div = $(this).parent();
         //puis j'affiche l'input et la disquette pour cette balise "li"
-        li.find('.inputMembre, .savedMembre').show();
+        div.find('.inputMembre, .savedMembre').show();
         //je masque l'info et le bouton stylo pour cette balise "li"
-        li.find('.infoMembre , .updateMembre').hide();
+        div.find('.infoMembre , .updateMembre').hide();
+
+        //traitement spécial pour les label des boutons radio
+        if(div.find('.labelRadio')){
+            div.find('.labelRadio').show()
+        }
+
     })
 
     
     $('.savedMembre').on('click', function(){
-        var li = $(this).parent();
-        var spanInfo = li.find('.infoMembre');
+        var div = $(this).parent();
+        var spanInfo = div.find('.infoMembre');
+        //je test si la valeur saisie est différente de la valeur initialle
+        var previousVal = spanInfo.html();
         //je selectionne l'input concerné
-        var input = li.find('.inputMembre');
-        //je récupère la valeur de l'input
-        var valeurMAJ = input.val();
+        var input = div.find('.inputMembre');
         //je récupère la valeur de l'attribut 'name' de l'input
         var champMAJ = input.attr('name');
-        var idMembre = $('.idm').val();
-
-        $.post('./inc/ajax.php','action=majmembre&val='+valeurMAJ+'&champ='+champMAJ+'&id='+idMembre,function(resutatUpdate){
-            if(resutatUpdate.validation == 'ok'){
-                //si ok, je veux afficher un message de succes de la MAJ du champ
-                //et mettre à jour  et afficher l'info(s) affichée(s) à l'écran
-                //masquer l'input et le bouton disquette
-                $('.inputMembre, .savedMembre').hide();
-                $('.infoMembre , .updateMembre').show();
-                console.log( $(this).parent());
-                li.append('<p class="text text-success">le '+champMAJ+' à été mit à jour !</p>');
-                spanInfo.html(valeurMAJ);
+        //traitement spécial pour le bouton radio
+        if(champMAJ == 'civilite'){
+            //je récupère la valeur du radio checked
+            var input = div.find('.inputMembre:checked');
+            var valeurMAJ = input.val();
+            if(previousVal=='Homme'){
+                var newInfoCivilite= "Femme";
+                previousVal="m";
+            }else{
+                var newInfoCivilite= "Homme";
+                previousVal="f";
             }
-            else{
-                alert('pb ');
-            }
-        },'json');
+        }else{
+            //je récupère la valeur de l'input
+            var valeurMAJ = input.val();
+        }
         
-    });
+        //je supprime les "alert"
+        $('.alert').hide();
+        div.removeClass('has-error');
+
+        //je vérifie que la valeur de l'input n'est pas vide
+        if(valeurMAJ.length == 0){
+            var divAlert = $('<div class="alert alert-danger">vous devez saisir votre '+champMAJ+' !</div>').hide();
+            div.append(divAlert);
+            divAlert.fadeIn(800);
+            div.addClass('has-error');
+            input.val(previousVal).focus();
+        }else if(previousVal == valeurMAJ){
+            //je ne fais rien
+            toggoleInputButton();
+        }else{
+            //sinon j'envoie en ajax
+            $.post('./inc/ajax.php','action=majmembre&val='+valeurMAJ+'&champ='+champMAJ,function(resultatUpdate){
+                if(resultatUpdate.validation == 'ok'){
+                    //si ok, je veux afficher un message de succes de la MAJ du champ
+                    //et mettre à jour  et afficher l'info(s) affichée(s) à l'écran
+                    //masquer l'input et le bouton disquette
+                    var divAlert = $('<div class="alert alert-success">le '+champMAJ+' à été mit à jour !</div>').hide();
+                    div.append(divAlert);
+                    divAlert.fadeIn(800);
+                    //traitement spécial pour l'info de la civilite
+                    if(champMAJ=='civilite'){
+                        spanInfo.html(newInfoCivilite);
+                    }else if(champMAJ == 'pseudo'){
+                        //spécifique pour le pseudo, je met à jour le message de bienvenue
+                        $('.infoPseudo').html(valeurMAJ);
+                        spanInfo.html(valeurMAJ);
+                    }else{
+                        spanInfo.html(valeurMAJ);
+                    }
+                    
+                    
+                    toggoleInputButton();
+                }
+                else{
+                    //le pseuso n'est pas dispo
+                    var divAlert = $('<div class="alert alert-danger">Pseudo non disponible !</div>').hide();
+                    div.append(divAlert);
+                    divAlert.fadeIn(800);
+                    div.addClass('has-error');
+                    input.val(previousVal).focus();
+                }
+            },'json');
+        }
+    }); //fin click bouton savedMembre
 
 
-});
+    function toggoleInputButton(){
+        $('.inputMembre, .savedMembre').hide();
+        $('.infoMembre , .updateMembre').show();
+        //je cache aussi les label des bouton radio
+        $('.labelRadio').hide();
+    }
+
+
+
+
+     /* ======================================================================================================
+    ======  FONCTIONS POUR LE FORMULAIRE DE COMMENTAIRE  ========================================================
+    ====================================================================================================== */
+
+    $('.updateCommentaire').on('click', function(){
+        //je récupère l'id du commentaire
+        var idCommentaire = $(this).attr('id');
+        console.log(idCommentaire);
+        //je remonte sur le "<TR>" puis la class "msgCommentaire" pour récupérer le message du commentaire
+        var commentaire = $(this).parent().parent().find('.msgCommentaire').html();
+        //je prépare 
+        //je met le commentaire dans le formulaire Modal
+        $('.getCommentaire').html(commentaire);
+        $('#inputIdCommentaire').val(idCommentaire);
+    });//fin du click boutton updanteCommentaire
+});//fin du document Ready

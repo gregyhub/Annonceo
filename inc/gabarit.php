@@ -18,7 +18,7 @@
                         <span class="sr-only">Nagiguer</span>
                         <span class="glyphicon gliphicon-menu-hamburger"></span>
                     </button>
-                    <a href="<?= RACINE_SITE ?>" class="navbar-brand">Gregy The Boutique</a>
+                    <a href="<?= RACINE_SITE ?>" class="navbar-brand">Annonceo</a>
                 </div>
                 <div class="collapse navbar-collapse" id="monmenu">
                     <ul class="nav navbar-nav">
@@ -28,7 +28,7 @@
                             if( estConnecteEtAdmin() ){
                                 echo '<li><a href="'.RACINE_SITE.'admin/gestion_boutique.php">Gestion Boutique</a></li>';
                                 echo '<li><a href="'.RACINE_SITE.'admin/gestion_membres.php">Gestion Membres</a></li>';
-                                echo '<li><a href="'.RACINE_SITE.'admin/gestion_commandes.php">Gestion Commandes</a></li>';
+                                echo '<li><a href="'.RACINE_SITE.'admin/gestion_commentaires.php">Gestion des Commentaires</a></li>';
                             }
                             if( estConnecte() ){
                                 echo '<li><a href="'.RACINE_SITE.'profil.php">Profil</a></li>';

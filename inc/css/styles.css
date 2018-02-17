@@ -21,6 +21,11 @@ span.glyphicon-minus{
     display:none;
 }
 
-.inputMembre, .savedMembre{
+
+/*formulaire de la page profil*/
+.inputMembre, .savedMembre, .labelRadio{
+    display:none;
+}
+.form-inline .form-control {
     display:none;
 }

@@ -31,6 +31,7 @@
 
     /*
     fonctin pour vérifier si les champs formulaire son vide ou non
+    @champs est un tableau array qui contien en index le nom du champ a inserer en base, qui provient du "name" du formulaire, et en valeur, la valeur a envoyer en base
     */
     function champVide($champs){
         $champsvides = array('nbError' => 0);
