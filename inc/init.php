@@ -9,7 +9,7 @@
     //session
     session_start();
     $pass='';
-    $pass='mysql';
+    //$pass='mysql';
 
     //bdd
     $pdo = new PDO('mysql:host=localhost; dbname=annonceo','root', $pass, 

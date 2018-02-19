@@ -187,4 +187,28 @@ $(function(){
         $('.getCommentaire').html(commentaire);
         $('#inputIdCommentaire').val(idCommentaire);
     });//fin du click boutton updanteCommentaire
+
+
+/* ======================================================================================================
+    ======  FONCTIONS POUR L'AFFICHAGE DES PHOTO SUR L'AJOUT DES ANNONCES=================================
+    ====================================================================================================== */
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+        
+            var inputFile=$(input);
+            reader.onload = function(e) {
+                inputFile.next('.viewPhoto').attr('src', e.target.result).show();
+                inputFile.next('.viewPhoto').next().show();
+            }
+        
+            reader.readAsDataURL(input.files[0]);
+        }
+      }
+      
+      $("input.typeFile").change(function() {
+            readURL(this);
+      });
+
 });//fin du document Ready

@@ -14,7 +14,7 @@
 
             //vérifier qu'une chaine de caractère contient les caractères autorisé
              $verif_caractere = preg_match('#^[a-zA-Z0-9._-]+$#', $_POST['pseudo']);
-             $verif_cp = preg_match('#^[0-9]{5}$#', $_POST['cp']);
+            // $verif_cp = preg_match('#^[0-9]{5}$#', $_POST['cp']);
             /*
                 # - delimite l'expression au début et à la fin
                 ^ signifie commence par tout ce qui suit
@@ -31,9 +31,9 @@
 
             //pas d'erreur donc j'ajoute le membre dans la base
             $listeChamps =  $controleChamps['champsvalides'];
-            $sql = "INSERT INTO membre values (NULL, :pseudo, :mdp, :nom, :prenom, :email, :sexe, :ville, :cp, :adresse, 0)";
+            $sql = "INSERT INTO membre values (NULL, :pseudo, :mdp, :nom, :prenom, :telephone,:email, :civilite, 0, CURDATE())";
            
-            $insert = executeRequete($sql,  $listeChamps);
+            $insert = executeRequete($sql,$listeChamps);
             header("location:connexion.php?action=inscription");
             exit();
         }
@@ -86,7 +86,7 @@
         <!--tel -->
         <div class="form-group <?= isset($errorInscription['telephone']) ? 'has-error' : '' ?>">
             <label for="telephone">Téléphone</label>
-            <input type="text" class="form-control" id="telephone" name="telephoneville" placeholder="saisissez votre telephone" value="<?= $_POST['telephone'] ?? '' ?>">
+            <input type="text" class="form-control" id="telephone" name="telephone" placeholder="saisissez votre telephone" value="<?= $_POST['telephone'] ?? '' ?>">
             <?= $errorInscription['telephone'] ?? '' ?>
         </div>
         

@@ -29,3 +29,15 @@ span.glyphicon-minus{
 .form-inline .form-control {
     display:none;
 }
+
+
+/* formulaire ajout annonce */
+input.typeFile, label.typeFile{
+    display:none;
+}
+
+.viewPhoto{
+    display:none;
+    width:50px;
+    height:50px;
+}
