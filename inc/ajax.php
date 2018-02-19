@@ -48,4 +48,26 @@
     }
 
 
+
+  //  action=filtre&val='+val+'&champ='+champ
+  if(isset($_POST['action']) && $_POST['action'] ==filtre){
+    $tabVal = explode(',',$_POST['val']);
+    $tabChamp = explode(',',$_POST['champ']);
+
+    foreach($tabVal as $val){
+        if($val == 'no'){
+            unset($tabVal);
+            array_splice($tabChamp , $i, 1);
+            vdm($tabChamp);
+        }
+    }
+
+    $sql = 'SELECT id_annonce, titre, description_courte, photo, prix, prenom FROM annonce a, membre m WHERE a.membre_id=m.id_membre AND '.$_POST['champ'].'=:val';
+    $filtreAnnonce = executeRequete($sql, array('val' => $_POST['val']));
+    while($annonce = $filtreAnnonce->fetch(PDO::FETCH_ASSOC)){
+        $tabAnnonce[] = $annonce;
+    }
+    echo json_encode($tabAnnonce);
+  }
+
 ?>

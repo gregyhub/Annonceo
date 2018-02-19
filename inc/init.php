@@ -9,7 +9,7 @@
     //session
     session_start();
     $pass='';
-    //$pass='mysql';
+    //$pass='mysql'; //password pour l'environnement chez greg
 
     //bdd
     $pdo = new PDO('mysql:host=localhost; dbname=annonceo','root', $pass, 

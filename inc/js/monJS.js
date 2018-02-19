@@ -211,4 +211,46 @@ $(function(){
             readURL(this);
       });
 
+
+/* ======================================================================================================
+    ======  FONCTIONS POUR LA GESTION DES FILTRES DE RECHERCHE SUR L'INDEX=================================
+    ====================================================================================================== */
+
+    $('.ajaxSearch').on('change', function(){
+        
+        var recherhce = $('.ajaxSearch');
+        var nbSelect = recherhce.length;
+        var tabVal = [];
+        var tabChamp = [];
+        for (i=0; i< nbSelect; i++) {
+               tabVal.push($(recherhce[i]).val());
+               tabChamp.push( $(recherhce[i]).attr('data'));
+        }
+       
+            $.post('./inc/ajax.php','action=filtre&val='+tabVal+'&champ='+tabChamp,function(filtres){
+                //pour chaque resultat je boucle pour recreer la liste
+                var newListe ='';
+                filtres.forEach(annonce => {
+                    newListe += `<a href="annonce.php?id_annonce=<?= $annonce['id_annonce'] ?>">
+                    <div class="list-group listeAnnonce">
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <img class="media-object" src="./inc/photos/`+annonce.photo+`" alt="`+annonce.titre+`">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">`+annonce.titre+`</h4>
+                                <p>`+annonce.description_courte+`</p>
+                                <p>`+annonce.prenom+`
+                                `+annonce.prix+`€</p>
+                            </div>
+                        </div>
+                    </div>
+                    </a>`
+               });
+              $('.innerAjax').html(newListe);
+            },'json');
+        
+    });
+
+
 });//fin du document Ready

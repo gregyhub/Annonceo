@@ -122,7 +122,6 @@
             <?php
                 //boucle pour afficher les catégories
                 while($categorie = $categories->fetch(PDO::FETCH_ASSOC)){
-                    vdm($categorie);
                     ?>
                     <option value="<?= $categorie['id_categorie'] ?>"><?= $categorie['titre'] ?></option>
                     <?php
