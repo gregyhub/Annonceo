@@ -4,7 +4,7 @@
 
     if($_POST){
 
-        $sql='INSERT INTO commentaire VALUES (NULL, :membre_id, :annonce_id,:commentaire, CURDATE())';
+        $sql='INSERT INTO commentaire VALUES (NULL, :membre_id, :annonce_id,:commentaire, NOW())';
         $insert=executeRequete($sql, array(
                                         'membre_id' => $_SESSION['membre']['id_membre'],
                                         'annonce_id' => $_POST['annonce_id'],
@@ -81,7 +81,18 @@
                     <?= $photos?>
                     
                     <div class="row">
-                            <p class="col-md-1"><button class="btn btn-default affichForm" role="button">deposez un commentaire</button></p>
+                        <?php
+                            if(estConnecte()){
+                                ?>
+                                    <p class="col-md-1"><button class="btn btn-default affichForm" role="button">deposez un commentaire</button></p>
+                                <?php
+                            }else{
+                                ?>
+                                    <p class="col-md-1"><a class="btn btn-default" role="button" href="connexion.php">Connectez vous pour laisser un commentaire</a></p>
+                                <?php
+                            }
+                        ?>
+                            
                            <p class="col-md-1 col-md-offset-8"> <a class="btn btn-default" role="button" href="index.php">retournez aux annonces</a></p>
                     </div>
                 </main>
