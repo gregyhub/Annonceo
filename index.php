@@ -7,7 +7,7 @@
     ob_start();
     while($annonce = $annonces->fetch(PDO::FETCH_ASSOC)){
         ?>
-        <a href="annonce.php?id_annonce=<?= $annonce['id_annonce'] ?>">
+        <a class="lienAnnonce" href="annonce.php?id_annonce=<?= $annonce['id_annonce'] ?>">
         <div class="list-group listeAnnonce">
             <div class="media">
                 <div class="media-left media-middle">
