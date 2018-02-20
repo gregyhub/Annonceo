@@ -62,11 +62,10 @@
           
             $listeChamps['membre_id']= $_SESSION['membre']['id_membre'];
             
-            vdm($listeChamps);
             $sql = "INSERT INTO annonce values (NULL, :titre, :description_courte, :description_longue, :prix, :photo , :pays, :ville, :adresse, :cp, :membre_id, :photo_id, :categorie_id, CURDATE())";
           
             $insert = executeRequete($sql,$listeChamps);
-           
+            header('location:index.php');
         }
     }
 

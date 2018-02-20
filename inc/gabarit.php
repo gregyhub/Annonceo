@@ -26,12 +26,27 @@
 
                             //le MENU en fonction de visiteur ou Admin
                             if( estConnecteEtAdmin() ){
-                                echo '<li><a href="'.RACINE_SITE.'admin/gestion_boutique.php">Gestion Boutique</a></li>';
-                                echo '<li><a href="'.RACINE_SITE.'admin/gestion_membres.php">Gestion Membres</a></li>';
-                                echo '<li><a href="'.RACINE_SITE.'admin/gestion_commentaires.php">Gestion des Commentaires</a></li>';
+
+                                
+                                $menuGestion = '<li><a href="'.RACINE_SITE.'admin/gestion_annonces.php">Gestion des Annonces</a></li>';
+                                $menuGestion .= '<li><a href="'.RACINE_SITE.'admin/gestion_membres.php">Gestion des Membres</a></li>';
+                                $menuGestion .= '<li><a href="'.RACINE_SITE.'admin/gestion_categories.php">Gestion des Catégories</a></li>';
+                                $menuGestion .= '<li><a href="'.RACINE_SITE.'admin/gestion_commentaires.php">Gestion des Commentaires</a></li>';
+
+                                echo '<li role="presentation" class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                  Gestion du site <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                  '.$menuGestion.'
+                                </ul>
+                              </li>';
+
+
                             }
                             if( estConnecte() ){
                                 echo '<li><a href="'.RACINE_SITE.'profil.php">Profil</a></li>';
+                                echo '<li><a href="'.RACINE_SITE.'deposer_annonce.php">déposer une annonce</a></li>';
                                 echo '<li><a href="'.RACINE_SITE.'connexion.php?action=deconnexion">Se Déconnecter</a></li>';
                             }else{
                                 echo '<li><a href="'.RACINE_SITE.'inscription.php">Inscription</a></li>';

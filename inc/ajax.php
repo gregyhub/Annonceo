@@ -50,22 +50,36 @@
 
 
   //  action=filtre&val='+val+'&champ='+champ
-  if(isset($_POST['action']) && $_POST['action'] ==filtre){
-    $tabVal = explode(',',$_POST['val']);
-    $tabChamp = explode(',',$_POST['champ']);
+  if(isset($_POST['action']) && $_POST['action'] =='filtre'){
 
-    foreach($tabVal as $val){
-        if($val == 'no'){
-            unset($tabVal);
-            array_splice($tabChamp , $i, 1);
-            vdm($tabChamp);
-        }
+
+    $sql = 'SELECT id_annonce, titre, description_courte, photo, prix, prenom FROM annonce a, membre m WHERE a.membre_id=m.id_membre'; 
+        
+    $params=array();
+
+    if(!empty($_POST['val'])){
+        //si je recois des params
+        $tabVal = explode(',',$_POST['val']);
+        $tabChamp = explode(',',$_POST['champ']);
+          for($i=0; $i< count($tabChamp); $i++){
+            //pour chaque tour de boucle, je rajoute la condition AND à ma requete
+            $sql .= ' AND '.$tabChamp[$i].'=:val'.$i;
+            //je crée dynamiquement mon tableau de parametre avec val0 / val1 ...
+            $params['val'.$i] = $tabVal[$i];
+        } 
+        
     }
 
-    $sql = 'SELECT id_annonce, titre, description_courte, photo, prix, prenom FROM annonce a, membre m WHERE a.membre_id=m.id_membre AND '.$_POST['champ'].'=:val';
-    $filtreAnnonce = executeRequete($sql, array('val' => $_POST['val']));
-    while($annonce = $filtreAnnonce->fetch(PDO::FETCH_ASSOC)){
-        $tabAnnonce[] = $annonce;
+    $filtreAnnonce = executeRequete($sql, $params);
+
+    if($filtreAnnonce->rowCount()==0){
+        //si pas de resultat
+        $tabAnnonce['noResult'] = '<div class="jumbotron"><p class="alert alert-danger">Aucune annonce correspondant à vos critères de recherche</p></div>';
+    }else{
+        while($annonce = $filtreAnnonce->fetch(PDO::FETCH_ASSOC)){
+            $tabAnnonce[] = $annonce;
+        } 
+
     }
     echo json_encode($tabAnnonce);
   }

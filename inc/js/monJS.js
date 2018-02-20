@@ -189,6 +189,25 @@ $(function(){
     });//fin du click boutton updanteCommentaire
 
 
+
+    /* ======================================================================================================
+    ======  FONCTIONS POUR LE FORMULAIRE DE categ  ========================================================
+    ====================================================================================================== */
+
+    $('.updateCategorie').on('click', function(){
+        //je récupère l'id de la catzg
+        var idCateg = $(this).attr('id');
+        //je remonte sur le "<TR>" puis la class "categtitre" pour récupérer le message du commentaire
+        var categtitre = $(this).parent().parent().find('.categtitre').html();
+        var categmots  = $(this).parent().parent().find('.categmots').html();
+        //je prépare 
+        //je met le commentaire dans le formulaire Modal
+        $('.gettitrecateg').html(categtitre);
+        $('.getmotscateg').html(categmots);
+        $('#inputIdcategorie').val(idCateg);
+    });//fin du click boutton updanteCommentaire
+    
+
 /* ======================================================================================================
     ======  FONCTIONS POUR L'AFFICHAGE DES PHOTO SUR L'AJOUT DES ANNONCES=================================
     ====================================================================================================== */
@@ -223,34 +242,46 @@ $(function(){
         var tabVal = [];
         var tabChamp = [];
         for (i=0; i< nbSelect; i++) {
-               tabVal.push($(recherhce[i]).val());
-               tabChamp.push( $(recherhce[i]).attr('data'));
+            if($(recherhce[i]).val() != 'no'){
+                tabVal.push($(recherhce[i]).val());
+                tabChamp.push( $(recherhce[i]).attr('data'));
+            }
         }
        
             $.post('./inc/ajax.php','action=filtre&val='+tabVal+'&champ='+tabChamp,function(filtres){
                 //pour chaque resultat je boucle pour recreer la liste
                 var newListe ='';
-                filtres.forEach(annonce => {
-                    newListe += `<a href="annonce.php?id_annonce=<?= $annonce['id_annonce'] ?>">
-                    <div class="list-group listeAnnonce">
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <img class="media-object" src="./inc/photos/`+annonce.photo+`" alt="`+annonce.titre+`">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">`+annonce.titre+`</h4>
-                                <p>`+annonce.description_courte+`</p>
-                                <p>`+annonce.prenom+`
-                                `+annonce.prix+`€</p>
+                if(filtres.noResult){
+                    //pas de résultat
+                    newListe += filtres.noResult;
+                }
+                else{
+                    filtres.forEach(annonce => {
+                        newListe += `<a href="annonce.php?id_annonce=`+annonce.id_annonce+`">
+                        <div class="list-group listeAnnonce">
+                            <div class="media">
+                                <div class="media-left media-middle">
+                                    <img class="media-object" src="./inc/photos/`+annonce.photo+`" alt="`+annonce.titre+`">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">`+annonce.titre+`</h4>
+                                    <p>`+annonce.description_courte+`</p>
+                                    <p>`+annonce.prenom+`
+                                    `+annonce.prix+`€</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    </a>`
-               });
+                        </a>`
+                    });
+                }
               $('.innerAjax').html(newListe);
             },'json');
-        
     });
 
+
+
+    $('.affichForm').on('click', function(){
+        $('#fromCommentaire').toggle();
+    });
 
 });//fin du document Ready
